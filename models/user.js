@@ -15,10 +15,20 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        username: {
+        fullname: {
             type: DataTypes.STRING,
             allowNull: false,
             unique: true,
+        },
+    }, {
+        hooks: {
+            beforeCreate: function(user) {
+                user.password = bcrypt.hashSync(
+                    user.password,
+                    bcrypt.genSaltSync(10),
+                    null,
+                );
+            },
         },
     });
 
@@ -26,11 +36,12 @@ module.exports = function(sequelize, DataTypes) {
         return bcrypt.compareSync(password, this.password);
     };
 
-    User.hook('beforeCreate', function(user) {
-        user.password = bcrypt.hashSync(
-            user.password,
-            bcrypt.genSaltSync(10),
-            null,
-        );
-    })
+    // User.hook('beforeCreate', function(user) {
+    //     user.password = bcrypt.hashSync(
+    //         user.password,
+    //         bcrypt.genSaltSync(10),
+    //         null,
+    //     );
+    // })
+    return User;
 } 
