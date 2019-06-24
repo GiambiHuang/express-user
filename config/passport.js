@@ -6,6 +6,7 @@ var db = require('../models');
 passport.use(new LocalStrategy(
     { usernameField: 'email' },
     function(email, password, done) {
+        // without passReqToCallback, first param isn't req.
         // When a user tries to sign in this code runs.
         db.User.findOne({
             where: {
@@ -39,5 +40,10 @@ passport.serializeUser(function(user, cb) {
 passport.deserializeUser(function(obj, cb) {
     cb(null, obj);
 });
+// passport.deserializeUser(function(id, done) {
+//     db.User.findById(id, function(err, user) {
+//         done(err, user);
+//     });
+// })
 
 module.exports = passport;

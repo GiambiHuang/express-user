@@ -3,6 +3,7 @@ var isAuthenticated = require('../config/middleware/isAuthenticated');
 
 module.exports = function(app) {
     app.get('/', function(req, res) {
+        console.log(req.session);
         if (req.user) {
             res.redirect('/members');
         }
