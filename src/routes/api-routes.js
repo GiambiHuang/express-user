@@ -13,6 +13,7 @@ module.exports = function(app) {
         console.log(req.body);
         db.User.create({
             email: req.body.email,
+            fullname: req.body.fullname || '',
             password: req.body.password,
         })
         .then(function() {
@@ -30,13 +31,11 @@ module.exports = function(app) {
     });
 
     app.get('/api/user_data', function(req, res) {
+        console.log(req.session)
         if (!req.user) {
             res.json({});
         } else {
-            res.json({
-                email: req.user.email,
-                id: req.user.id,
-            });
+            res.json(req.user);
         }
     });
 }

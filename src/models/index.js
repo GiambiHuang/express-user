@@ -12,6 +12,11 @@ let sequelize;
 if (config.use_env_variable) {
   sequelize = new Sequelize(process.env[config.use_env_variable], config);
 } else {
+  config.username = process.env.DB_USER;
+  config.password = process.env.DB_PW;
+  config.database = process.env.DB_NAME;
+  config.host = process.env.DB_HOST;
+  config.port = process.env.DB_PORT;
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
 

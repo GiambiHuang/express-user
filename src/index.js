@@ -1,3 +1,6 @@
+var path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '../.env') });
+
 var express = require('express');
 var bodyParser = require('body-parser');
 var session = require('express-session');
@@ -19,14 +22,15 @@ app.use(session({
     secret: 'giambi9328nash',
     resave: false,
     cookie: {
-        maxAge: 10 * 1000,
+        maxAge: 100 * 1000,
     },
     saveUninitialized: false,
 }));
+
 app.use(passport.initialize());
 app.use(passport.session());
 
-require('./routes/html-routes.js')(app);
+// require('./routes/html-routes.js')(app);
 require('./routes/api-routes.js')(app);
 
 // app.get('/', function(req, res) {
